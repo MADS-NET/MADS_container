@@ -1,0 +1,46 @@
+services:
+  mongodb:
+    image: mongo
+    container_name: mads-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 10
+  broker:
+    image: mads
+    build:
+      context: .
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      tags: 
+        - mads:latest
+    container_name: mads-broker
+    ports:
+      - "9090:9090"
+      - "9092:9092"
+    volumes:
+      - ./etc:/usr/local/etc
+  logger:
+    image: mads
+    build:
+      context: .
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      tags: 
+        - mads:latest
+    container_name: mads-logger
+    command: logger -s tcp://broker:9092
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      broker:
+        condition: service_started
+    ports:
+      - "9091:9091"
