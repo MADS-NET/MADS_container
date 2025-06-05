@@ -2,7 +2,7 @@ FROM ubuntu:24.04
 LABEL org.opencontainers.image.authors="paolo.bosetti@unitn.it"
 ARG DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC
 ARG TARGETPLATFORM
-ARG MADS_VERSION=1.2.6
+ARG MADS_VERSION=1.2.7
 RUN apt-get update && \
     apt-get install -y  wget && \
     apt-get upgrade -y && \
