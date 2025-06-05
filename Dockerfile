@@ -30,4 +30,4 @@ EXPOSE 9090
 EXPOSE 9091
 EXPOSE 9092
 ENTRYPOINT ["/usr/local/bin/mads"]
-CMD ["broker", "-d"]
+CMD ["broker"]
