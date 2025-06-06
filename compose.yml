@@ -12,14 +12,7 @@ services:
       timeout: 10s
       retries: 10
   broker:
-    image: mads
-    build:
-      context: .
-      tags: 
-        - mads:latest
-        - mads:${MADS_VERSION}
-      args:
-        MADS_VERSION: ${MADS_VERSION}
+    image: p4010/mads:latest
     container_name: mads-broker
     command: broker --docker
     ports:
@@ -28,14 +21,7 @@ services:
     volumes:
       - ./etc:/usr/local/etc
   logger:
-    image: mads
-    build:
-      context: .
-      tags: 
-        - mads:latest
-        - mads:${MADS_VERSION}
-      args:
-        MADS_VERSION: ${MADS_VERSION}
+    image: p4010/mads:latest
     container_name: mads-logger
     command: logger -s tcp://broker:9092
     depends_on:
